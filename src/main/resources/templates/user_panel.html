@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/res/favicon.ico">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+
+    <title th:text="${Title}"></title>
+</head>
+<body>
+    <main class="container my-5">
+        <h1 class="text-center">Görev Listem</h1>
+
+        <p><b>Aktif kullanıcı:</b> <span th:text="${username}">TANIMSIZ</span></p>
+
+        <div th:each="task: ${tasks}">
+            <p class="mb-0" th:text="${task.body}"></p>
+            <p><small th:text="${task.owner}"></small>, <i th:text="${task.dateCreated}"></i></p>
+        </div>
+
+
+        <form action="/user/createtask" method="POST" class="validated-form" novalidate>
+            <input type="hidden" name="owner" value="TANIMSIZ" th:attr="value=${username}">
+            <div class="mb-3">
+                <label for="taskBodyTx" class="form-label">Yeni Görev</label>
+                <textarea name="body" class="form-control" id="taskBodyTx" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="sendBt">Ekle</button>
+        </form>
+
+    </main>
+
+    <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

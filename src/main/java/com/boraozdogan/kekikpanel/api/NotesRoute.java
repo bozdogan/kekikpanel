@@ -3,6 +3,7 @@ package com.boraozdogan.kekikpanel.api;
 import com.boraozdogan.kekikpanel.model.Note;
 import com.boraozdogan.kekikpanel.model.NoteRequestModel;
 import com.boraozdogan.kekikpanel.repository.NoteRepository;
+import com.boraozdogan.kekikpanel.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,8 @@ import java.util.Map;
 public class NotesRoute {
     @Autowired
     private NoteRepository noteRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/api/notes")
     public List<Note> all() {
@@ -26,8 +29,14 @@ public class NotesRoute {
 
     @PostMapping("/api/notes")
     public Note newNote(@RequestBody NoteRequestModel noteRequest) {
+        var userOpt = userRepository.findById(noteRequest.owner());
+        if(userOpt.isEmpty()) {
+            return  null;
+        }
+
+        var user = userOpt.get();
         var note = new Note(
-                noteRequest.owner(),
+                user,
                 noteRequest.body(),
                 LocalDate.now());
 

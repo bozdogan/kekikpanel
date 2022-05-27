@@ -27,17 +27,20 @@ public class UserPanelController {
 
     @Autowired
     private NotesRoute notesRoute;
-
     @Autowired
     private NoteRepository noteRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/user/{username}/panel")
     public String userPanel(ModelMap model, @PathVariable String username) {
-        if(username == null) {
+        var userOpt = userRepository.findById(username);
+        if(userOpt.isEmpty()) {
             return "redirect:/";
         }
 
-        model.addAttribute("userNotes", noteRepository.findByOwner(username));
+        var user = userOpt.get();
+        model.addAttribute("userNotes", noteRepository.findByOwner(user));
         model.addAttribute("allNotes", noteRepository.findAll());
 
         return "user_panel";
@@ -48,6 +51,10 @@ public class UserPanelController {
             @RequestParam("owner") String owner,
             @RequestParam("body") String body
     ) {
+        if(body.isBlank()) {
+            return String.format("redirect:/user/%s/panel", owner);
+        }
+
 //        // NOTE(bora): Make internal API call over HTTP
 //        var restTemplate = new RestTemplate();
 //        var response = restTemplate.postForObject(
@@ -61,6 +68,6 @@ public class UserPanelController {
                 new NoteRequestModel(owner, body));
 
         logger.info("Record added: {}", response);
-        return "user_panel";
+        return String.format("redirect:/user/%s/panel", owner);
     }
 }

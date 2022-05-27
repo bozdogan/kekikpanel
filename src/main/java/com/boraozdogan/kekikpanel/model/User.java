@@ -1,6 +1,8 @@
 package com.boraozdogan.kekikpanel.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -8,12 +10,15 @@ import javax.persistence.*;
         name="\"user\"")
 public class User {
     @Id
-    private final String username;
+    private String username;
     private String pwHash;
     private boolean isAdmin;
 
+    @OneToMany(mappedBy = "owner",
+               cascade = CascadeType.ALL)
+    private Set<Note> notes = new HashSet<>();
+
     private User() {
-        this.username = null;
     }
 
     public User(String username, String pwHash, boolean isAdmin) {

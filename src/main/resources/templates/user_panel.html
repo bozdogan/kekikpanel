@@ -19,7 +19,7 @@
 
         <div class="p-2 my-3 bg-white border" th:each="note: ${userNotes}">
             <p class="mb-0" th:text="${note.body}"></p>
-            <p class="mb-0"><small th:text="${note.owner}"></small>, <i th:text="${note.dateCreated}"></i></p>
+            <p class="mb-0"><small th:text="${note.owner.username}"></small>, <i th:text="${note.dateCreated}"></i></p>
         </div>
 
 

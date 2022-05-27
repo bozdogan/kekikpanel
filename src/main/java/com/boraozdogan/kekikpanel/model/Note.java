@@ -9,16 +9,17 @@ public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private final String owner;
+    @ManyToOne
+    @JoinColumn(name = "owner_username")
+    private User owner;
     @Column(columnDefinition = "TEXT")
     private String body;
     private LocalDate dateCreated;
 
     private Note() {
-        this.owner = null;
     }
 
-    public Note(String owner, String body, LocalDate dateCreated) {
+    public Note(User owner, String body, LocalDate dateCreated) {
         this.owner = owner;
         this.body = body;
         this.dateCreated = dateCreated;
@@ -29,7 +30,7 @@ public class Note {
         return id;
     }
 
-    public String getOwner() {
+    public User getOwner() {
         return owner;
     }
 

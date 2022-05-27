@@ -21,11 +21,18 @@ public class AdminPanelController {
 
     @GetMapping("/admin/{username}/panel")
     public String adminPanel(ModelMap model, @PathVariable String username) {
-        if(username == null) {
+        var userOpt = userRepository.findById(username);
+        if(userOpt.isEmpty()) {
             return "redirect:/";
         }
 
-        model.addAttribute("userNotes", noteRepository.findByOwner(username));
+        var user = userOpt.get();
+        if(!user.isAdmin()) {
+            return String.format("redirect:/user/%s/panel", username);
+        }
+
+        model.addAttribute("userNotes", noteRepository.findByOwner(user));
+        model.addAttribute("users", userRepository.findAll());
         model.addAttribute("allNotes", noteRepository.findAll());
 
         return "admin_panel";

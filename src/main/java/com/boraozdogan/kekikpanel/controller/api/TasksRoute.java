@@ -19,9 +19,7 @@ public class TasksRoute {
     @GetMapping("/api/tasks")
     public List<Task> all() {
         var result = new ArrayList<Task>();
-        for(var it: taskRepository.findAll()) {
-            result.add(it);
-        }
+        taskRepository.findAll().forEach(result::add);
 
         return result;
     }

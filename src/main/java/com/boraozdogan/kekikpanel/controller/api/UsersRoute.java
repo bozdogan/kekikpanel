@@ -18,9 +18,7 @@ public class UsersRoute {
     @GetMapping("/api/users")
     public List<User> all() {
         var result = new ArrayList<User>();
-        for(var it: userRepository.findAll()) {
-            result.add(it);
-        }
+        userRepository.findAll().forEach(result::add);
 
         return result;
     }

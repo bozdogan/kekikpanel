@@ -8,21 +8,29 @@ import java.time.LocalDate;
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private final int id;
+    private int id;
+    private final String owner;
     @Column(columnDefinition = "TEXT")
     private String body;
-    private LocalDate date;
-    private final String owner;
+    private LocalDate dateCreated;
 
-    public Task(int id, String body, LocalDate date, String owner) {
-        this.id = id;
-        this.body = body;
-        this.date = date;
-        this.owner = owner;
+    private Task() {
+        this.owner = null;
     }
+
+    public Task(String owner, String body, LocalDate dateCreated) {
+        this.owner = owner;
+        this.body = body;
+        this.dateCreated = dateCreated;
+    }
+
 
     public int getId() {
         return id;
+    }
+
+    public String getOwner() {
+        return owner;
     }
 
     public String getBody() {
@@ -32,14 +40,11 @@ public class Task {
         this.body = body;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getDateCreated() {
+        return dateCreated;
     }
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setDateCreated(LocalDate dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
-    public String getOwner() {
-        return owner;
-    }
 }

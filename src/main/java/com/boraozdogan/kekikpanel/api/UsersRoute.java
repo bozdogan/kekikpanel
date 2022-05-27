@@ -1,4 +1,4 @@
-package com.boraozdogan.kekikpanel.controller.api;
+package com.boraozdogan.kekikpanel.api;
 
 import com.boraozdogan.kekikpanel.model.User;
 import com.boraozdogan.kekikpanel.model.UserRequestModel;

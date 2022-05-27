@@ -17,7 +17,7 @@
 
         <p><b>Aktif kullanıcı:</b> <span th:text="${username}">TANIMSIZ</span></p>
 
-        <div th:each="task: ${tasks}">
+        <div th:each="task: ${userTasks}">
             <p class="mb-0" th:text="${task.body}"></p>
             <p><small th:text="${task.owner}"></small>, <i th:text="${task.dateCreated}"></i></p>
         </div>

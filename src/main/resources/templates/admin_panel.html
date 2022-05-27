@@ -18,15 +18,27 @@
 
     <div class="row">
         <div class="col-6">
-            <h1>Kullanıcılar</h1>
+            <h3>Kullanıcılar</h3>
             <div th:each="user: ${users}">
-                <p th:text="${user.name}"></p>
+                <p th:text="${user.username}"></p>
             </div>
         </div>
         <div class="col-6">
-            <div th:each="task: ${tasks}">
+            <h3>Görevlerim</h3>
+            <div th:each="task: ${userTasks}">
                 <p th:text="${task.body}"></p>
-                <p><small th:text="${task.owner}"></small>, <i th:text="${task.date}"></i></p>
+                <p><small th:text="${task.owner}"></small>, <i th:text="${task.dateCreated}"></i></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-6 offset-3">
+            <h3>Bütün Görevler</h3>
+            <div th:each="task: ${allTasks}">
+                <p th:text="${task.body}"></p>
+                <p><small th:text="${task.owner}"></small>, <i th:text="${task.dateCreated}"></i></p>
             </div>
         </div>
     </div>

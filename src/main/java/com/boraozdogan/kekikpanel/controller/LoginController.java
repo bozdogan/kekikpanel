@@ -1,6 +1,7 @@
 package com.boraozdogan.kekikpanel.controller;
 
 import com.boraozdogan.kekikpanel.repository.TaskRepository;
+import com.boraozdogan.kekikpanel.repository.UserRepository;
 import com.boraozdogan.kekikpanel.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,9 +20,11 @@ public class LoginController {
     @Value("${boz.app.name}")
     private String appName;
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
     @Autowired
     private TaskRepository taskRepository;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -46,12 +49,13 @@ public class LoginController {
         logger.info("loginInfo.password: {}", password);
 
 
-        if(userService.validateLogin(username, password))
-        {
+        if(userService.validateLogin(username, password)) {
             model.addAttribute("username", username);
-            model.addAttribute("tasks", taskRepository.findAll());
+            model.addAttribute("userTasks", taskRepository.findByOwner(username));
 
             if(userService.isAdmin(username)) {
+                model.addAttribute("users", userRepository.findAll());
+                model.addAttribute("allTasks", taskRepository.findAll());
                 return "admin_panel";
             } else {
                 return "user_panel";

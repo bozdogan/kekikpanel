@@ -13,17 +13,17 @@
 </head>
 <body>
     <main class="container my-5">
-        <h1 class="text-center">Görev Listem</h1>
+        <h1 class="text-center">Notlarım</h1>
 
         <p><b>Aktif kullanıcı:</b> <span th:text="${username}">TANIMSIZ</span></p>
 
-        <div class="p-2 my-3 bg-white border" th:each="task: ${userTasks}">
-            <p class="mb-0" th:text="${task.body}"></p>
-            <p class="mb-0"><small th:text="${task.owner}"></small>, <i th:text="${task.dateCreated}"></i></p>
+        <div class="p-2 my-3 bg-white border" th:each="note: ${userNotes}">
+            <p class="mb-0" th:text="${note.body}"></p>
+            <p class="mb-0"><small th:text="${note.owner}"></small>, <i th:text="${note.dateCreated}"></i></p>
         </div>
 
 
-        <form action="/user/createtask" method="POST" class="validated-form" novalidate>
+        <form action="/user/createnote" method="POST" class="validated-form" novalidate>
             <input type="hidden" name="owner" value="TANIMSIZ" th:attr="value=${username}">
             <div class="mb-3">
                 <label for="taskBodyTx" class="form-label">Yeni Görev</label>

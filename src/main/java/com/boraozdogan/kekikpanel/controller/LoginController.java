@@ -1,6 +1,6 @@
 package com.boraozdogan.kekikpanel.controller;
 
-import com.boraozdogan.kekikpanel.repository.TaskRepository;
+import com.boraozdogan.kekikpanel.repository.NoteRepository;
 import com.boraozdogan.kekikpanel.repository.UserRepository;
 import com.boraozdogan.kekikpanel.service.UserService;
 import org.slf4j.Logger;
@@ -22,7 +22,7 @@ public class LoginController {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private TaskRepository taskRepository;
+    private NoteRepository noteRepository;
     @Autowired
     private UserService userService;
 
@@ -51,11 +51,11 @@ public class LoginController {
 
         if(userService.validateLogin(username, password)) {
             model.addAttribute("username", username);
-            model.addAttribute("userTasks", taskRepository.findByOwner(username));
+            model.addAttribute("userNotes", noteRepository.findByOwner(username));
 
             if(userService.isAdmin(username)) {
                 model.addAttribute("users", userRepository.findAll());
-                model.addAttribute("allTasks", taskRepository.findAll());
+                model.addAttribute("allNotes", noteRepository.findAll());
                 return "admin_panel";
             } else {
                 return "user_panel";

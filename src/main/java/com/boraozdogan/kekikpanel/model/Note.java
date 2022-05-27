@@ -5,7 +5,7 @@ import java.time.LocalDate;
 
 
 @Entity
-public class Task {
+public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -14,11 +14,11 @@ public class Task {
     private String body;
     private LocalDate dateCreated;
 
-    private Task() {
+    private Note() {
         this.owner = null;
     }
 
-    public Task(String owner, String body, LocalDate dateCreated) {
+    public Note(String owner, String body, LocalDate dateCreated) {
         this.owner = owner;
         this.body = body;
         this.dateCreated = dateCreated;
@@ -50,7 +50,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
+        return "Note{" +
                 "id=" + id +
                 ", owner='" + owner + '\'' +
                 ", body='" + body + '\'' +

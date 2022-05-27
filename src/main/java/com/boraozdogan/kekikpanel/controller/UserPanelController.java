@@ -1,8 +1,7 @@
 package com.boraozdogan.kekikpanel.controller;
 
-import com.boraozdogan.kekikpanel.api.TasksRoute;
-import com.boraozdogan.kekikpanel.model.Task;
-import com.boraozdogan.kekikpanel.model.TaskRequestModel;
+import com.boraozdogan.kekikpanel.api.NotesRoute;
+import com.boraozdogan.kekikpanel.model.NoteRequestModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +21,10 @@ public class UserPanelController {
     private String apiURL;
 
     @Autowired
-    private TasksRoute tasksRoute;
+    private NotesRoute notesRoute;
 
-    @PostMapping("/user/createtask")
-    public String createTask(
+    @PostMapping("/user/createnote")
+    public String createNote(
             @RequestParam("owner") String owner,
             @RequestParam("body") String body
     ) {
@@ -35,11 +34,11 @@ public class UserPanelController {
 //                apiURL + "/tasks",
 //                Map.of("owner", owner,
 //                        "body", body),
-//                Task.class);
+//                Note.class);
 
         // NOTE(bora): Call internal API directly
-        var response = tasksRoute.newTask(
-                new TaskRequestModel(owner, body));
+        var response = notesRoute.newNote(
+                new NoteRequestModel(owner, body));
 
         logger.info("Record added: {}", response);
         return "user_panel";

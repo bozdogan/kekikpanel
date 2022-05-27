@@ -27,9 +27,9 @@
         <div class="col-6">
             <div class="p-3 bg-light border">
             <h3>Görevlerim</h3>
-            <div class="p-2 my-3 bg-white border" th:each="task: ${userTasks}">
-                <p class="mb-0" th:text="${task.body}"></p>
-                <p class="mb-0"><small th:text="${task.owner}"></small>, <i th:text="${task.dateCreated}"></i></p>
+            <div class="p-2 my-3 bg-white border" th:each="note: ${userNotes}">
+                <p class="mb-0" th:text="${note.body}"></p>
+                <p class="mb-0"><small th:text="${note.owner}"></small>, <i th:text="${note.dateCreated}"></i></p>
             </div></div>
         </div>
     </div>
@@ -38,9 +38,9 @@
         <div class="col-6 offset-3">
             <div class="p-3 bg-light border">
             <h3>Bütün Görevler</h3>
-            <div class="p-2 my-3 bg-white border" th:each="task: ${allTasks}">
-                <p class="mb-0" th:text="${task.body}"></p>
-                <p class="mb-0"><small th:text="${task.owner}"></small>, <i th:text="${task.dateCreated}"></i></p>
+            <div class="p-2 my-3 bg-white border" th:each="note: ${allNotes}">
+                <p class="mb-0" th:text="${note.body}"></p>
+                <p class="mb-0"><small th:text="${note.owner}"></small>, <i th:text="${note.dateCreated}"></i></p>
             </div></div>
         </div>
     </div>

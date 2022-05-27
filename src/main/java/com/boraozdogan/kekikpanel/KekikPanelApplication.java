@@ -1,8 +1,8 @@
 package com.boraozdogan.kekikpanel;
 
-import com.boraozdogan.kekikpanel.model.Task;
+import com.boraozdogan.kekikpanel.model.Note;
 import com.boraozdogan.kekikpanel.model.User;
-import com.boraozdogan.kekikpanel.repository.TaskRepository;
+import com.boraozdogan.kekikpanel.repository.NoteRepository;
 import com.boraozdogan.kekikpanel.repository.UserRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,16 +19,16 @@ public class KekikPanelApplication {
 
 		// NOTE(bora): Initialize test data
 		var userRepo = ctx.getBean(UserRepository.class);
-		var taskRepo = ctx.getBean(TaskRepository.class);
+		var taskRepo = ctx.getBean(NoteRepository.class);
 
 		userRepo.save(new User("admin", "admin", true));
 		userRepo.save(new User("cansimit", "1234", false));
 		userRepo.save(new User("bora", "1234", false));
 
-		taskRepo.save(new Task("cansimit","Do this", LocalDate.now()));
-		taskRepo.save(new Task("admin", "Everything", LocalDate.now()));
-        taskRepo.save(new Task("cansimit", "Do that", LocalDate.of(2022, 05, 27)));
-		taskRepo.save(new Task("bora", "My first task", LocalDate.of(2022, 05, 26)));
-		taskRepo.save(new Task("bora", "My second task", LocalDate.of(2022, 05, 27)));
+		taskRepo.save(new Note("cansimit","Do this", LocalDate.now()));
+		taskRepo.save(new Note("admin", "Everything", LocalDate.now()));
+        taskRepo.save(new Note("cansimit", "Do that", LocalDate.of(2022, 05, 27)));
+		taskRepo.save(new Note("bora", "My first task", LocalDate.of(2022, 05, 26)));
+		taskRepo.save(new Note("bora", "My second task", LocalDate.of(2022, 05, 27)));
 	}
 }

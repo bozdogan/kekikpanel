@@ -2,6 +2,8 @@ package com.boraozdogan.kekikpanel.controller;
 
 import com.boraozdogan.kekikpanel.repository.TaskRepository;
 import com.boraozdogan.kekikpanel.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class LoginController {
+    Logger logger = LoggerFactory.getLogger(LoginController.class);
+
     @Value("${boz.app.name}")
     private String appName;
     @Autowired
@@ -38,9 +42,8 @@ public class LoginController {
             @RequestParam("username") String username,
             @RequestParam("password") String password
     ) {
-        // TODO(bora): Validate login.
-        System.out.printf("[LoginController#loginPost]:: loginInfo.username: %s%n", username);
-        System.out.printf("[LoginController#loginPost]:: loginInfo.password: %s%n", password);
+        logger.info("loginInfo.username: {}", username);
+        logger.info("loginInfo.password: {}", password);
 
 
         if(userService.validateLogin(username, password))

@@ -47,4 +47,14 @@ public class Task {
         this.dateCreated = dateCreated;
     }
 
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", owner='" + owner + '\'' +
+                ", body='" + body + '\'' +
+                ", dateCreated=" + dateCreated +
+                '}';
+    }
 }

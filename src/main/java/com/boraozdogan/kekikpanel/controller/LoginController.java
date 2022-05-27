@@ -8,10 +8,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class LoginController {
@@ -20,14 +21,10 @@ public class LoginController {
     @Value("${boz.app.name}")
     private String appName;
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private NoteRepository noteRepository;
-    @Autowired
     private UserService userService;
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(ModelMap model) {
         model.addAttribute("Title",
                 String.format("%s - Giriş", appName));
 
@@ -41,24 +38,18 @@ public class LoginController {
 
     @PostMapping("/login")
     public String loginPost(
-            Model model,
             @RequestParam("username") String username,
             @RequestParam("password") String password
     ) {
         logger.info("loginInfo.username: {}", username);
         logger.info("loginInfo.password: {}", password);
 
-
         if(userService.validateLogin(username, password)) {
-            model.addAttribute("username", username);
-            model.addAttribute("userNotes", noteRepository.findByOwner(username));
-
             if(userService.isAdmin(username)) {
-                model.addAttribute("users", userRepository.findAll());
-                model.addAttribute("allNotes", noteRepository.findAll());
-                return "admin_panel";
+                // NOTE(bora): This should be done using sessions.
+                return String.format("redirect:/admin/%s/panel", username);
             } else {
-                return "user_panel";
+                return String.format("redirect:/user/%s/panel", username);
             }
         } else {
             return "redirect:/";

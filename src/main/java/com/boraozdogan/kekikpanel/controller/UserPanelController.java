@@ -2,11 +2,16 @@ package com.boraozdogan.kekikpanel.controller;
 
 import com.boraozdogan.kekikpanel.api.NotesRoute;
 import com.boraozdogan.kekikpanel.model.NoteRequestModel;
+import com.boraozdogan.kekikpanel.repository.NoteRepository;
+import com.boraozdogan.kekikpanel.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -22,6 +27,21 @@ public class UserPanelController {
 
     @Autowired
     private NotesRoute notesRoute;
+
+    @Autowired
+    private NoteRepository noteRepository;
+
+    @GetMapping("/user/{username}/panel")
+    public String userPanel(ModelMap model, @PathVariable String username) {
+        if(username == null) {
+            return "redirect:/";
+        }
+
+        model.addAttribute("userNotes", noteRepository.findByOwner(username));
+        model.addAttribute("allNotes", noteRepository.findAll());
+
+        return "user_panel";
+    }
 
     @PostMapping("/user/createnote")
     public String createNote(
@@ -43,5 +63,4 @@ public class UserPanelController {
         logger.info("Record added: {}", response);
         return "user_panel";
     }
-
 }

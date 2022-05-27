@@ -16,30 +16,32 @@
     <h1 class="text-center">Yönetici Paneli</h1>
     <p><b>Current User:</b> <span th:text="${username}">USERNAME</span></p>
 
-    <div class="row">
+    <div class="row mb-3">
         <div class="col-6">
+            <div class="p-3 bg-light border">
             <h3>Kullanıcılar</h3>
-            <div th:each="user: ${users}">
-                <p th:text="${user.username}"></p>
-            </div>
+            <div class="p-2 my-3 bg-white border" th:each="user: ${users}">
+                <p class="mb-0" th:text="${user.username}"></p>
+            </div></div>
         </div>
         <div class="col-6">
+            <div class="p-3 bg-light border">
             <h3>Görevlerim</h3>
-            <div th:each="task: ${userTasks}">
-                <p th:text="${task.body}"></p>
-                <p><small th:text="${task.owner}"></small>, <i th:text="${task.dateCreated}"></i></p>
-            </div>
+            <div class="p-2 my-3 bg-white border" th:each="task: ${userTasks}">
+                <p class="mb-0" th:text="${task.body}"></p>
+                <p class="mb-0"><small th:text="${task.owner}"></small>, <i th:text="${task.dateCreated}"></i></p>
+            </div></div>
         </div>
     </div>
 
     <div class="row">
-
         <div class="col-6 offset-3">
+            <div class="p-3 bg-light border">
             <h3>Bütün Görevler</h3>
-            <div th:each="task: ${allTasks}">
-                <p th:text="${task.body}"></p>
-                <p><small th:text="${task.owner}"></small>, <i th:text="${task.dateCreated}"></i></p>
-            </div>
+            <div class="p-2 my-3 bg-white border" th:each="task: ${allTasks}">
+                <p class="mb-0" th:text="${task.body}"></p>
+                <p class="mb-0"><small th:text="${task.owner}"></small>, <i th:text="${task.dateCreated}"></i></p>
+            </div></div>
         </div>
     </div>
 </main>

@@ -3,8 +3,8 @@ package com.boraozdogan.kekikpanel.model;
 import javax.persistence.*;
 
 
-@Entity(
-        // NOTE(bora): https://github.com/h2database/h2database/issues/3363#issuecomment-1021542613
+@Entity
+@Table( // NOTE(bora): https://github.com/h2database/h2database/issues/3363#issuecomment-1021542613
         name="\"user\"")
 public class User {
     @Id

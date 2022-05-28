@@ -23,17 +23,29 @@
         </div>
 
 
-        <form action="/user/createnote" method="POST" class="validated-form" novalidate>
+        <form id="newNoteForm" action="/user/createnote" method="POST" class="validated-form">
             <input type="hidden" name="owner" value="TANIMSIZ" th:attr="value=${username}">
             <div class="mb-3">
-                <label for="taskBodyTx" class="form-label">Yeni Görev</label>
-                <textarea name="body" class="form-control" id="taskBodyTx" required></textarea>
+                <label for="noteBodyTx" class="form-label">Yeni Görev</label>
+                <textarea name="body" class="form-control" id="noteBodyTx" required></textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary" id="sendBt">Ekle</button>
+            <button type="submit" class="btn btn-primary px-3 d-block ms-auto" id="sendBt">Ekle</button>
         </form>
-
     </main>
+
+    <script>
+        const newNoteForm = document.getElementById("newNoteForm")
+
+        newNoteForm.addEventListener("submit", e => {
+            const noteBodyTx = document.getElementById("noteBodyTx");
+
+            if(noteBodyTx.value.trim().length === 0) {
+                e.preventDefault()
+                alert("Boş not eklenemez.")
+            } 
+        })
+    </script>
 
     <script src="/js/bootstrap.bundle.min.js"></script>
 </body>

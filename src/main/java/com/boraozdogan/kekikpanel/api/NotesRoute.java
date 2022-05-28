@@ -26,6 +26,10 @@ public class NotesRoute {
 
         return result;
     }
+    @GetMapping("/api/notes/{id}")
+    public Note one(@PathVariable int id) {
+        return noteRepository.findById(id).orElse(null);
+    }
 
     @PostMapping("/api/notes")
     public Note newNote(@RequestBody NoteRequestModel noteRequest) {
@@ -61,7 +65,7 @@ public class NotesRoute {
     }
 
     @DeleteMapping("/api/notes/{id}")
-    public void deleteUser(@PathVariable int id) {
+    public void deleteNote(@PathVariable int id) {
         noteRepository.deleteById(id);
     }
 }

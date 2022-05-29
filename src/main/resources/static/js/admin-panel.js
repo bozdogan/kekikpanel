@@ -1,8 +1,3 @@
-const usersPanel = document.getElementById("usersPanel");
-const userCreateForm = document.getElementById("userCreateForm");
-const notesPanel = document.getElementById("notesPanel");
-const allNotesPanel = document.getElementById("allNotesPanel");
-
 const admin_label = "Yönetici";
 const user_label = "Kullanıcı";
 

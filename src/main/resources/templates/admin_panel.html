@@ -71,6 +71,23 @@
         </div>
     </main>
 
+    <script>
+        const usersPanel = document.getElementById("usersPanel");
+        const userCreateForm = document.getElementById("userCreateForm");
+        const notesPanel = document.getElementById("notesPanel");
+        const allNotesPanel = document.getElementById("allNotesPanel");
+
+        userCreateForm.addEventListener("submit", e => {
+            const newUserUsernameTx = document.getElementById("newUserUsernameTx");
+            const newUserPasswordTx = document.getElementById("newUserPasswordTx");
+
+            if(newUserUsernameTx.value.trim().length === 0
+                    || newUserPasswordTx.value.trim().length === 0) {
+                e.preventDefault();
+                alert("Lütfen kullanıcı adı ve parola bölümlerini doldurunuz.");
+            }
+        });
+    </script>
     <script src="/js/api-wrapper.js"></script>
     <script src="/js/admin-panel.js"></script>
     <script src="/js/bootstrap.bundle.min.js"></script>

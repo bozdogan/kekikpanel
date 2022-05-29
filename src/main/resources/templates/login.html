@@ -14,7 +14,7 @@
     <main class="container my-5">
         <h1 class="text-center">Giriş Yap</h1>
 
-        <form action="/login" method="POST">
+        <form id="loginForm" action="/login" method="POST">
             <div class="mb-3">
                 <label for="usernameTx" class="form-label">Kullanıcı adı</label>
                 <input type="text" name="username" class="form-control" id="usernameTx" required>
@@ -29,6 +29,20 @@
         </form>
     </main>
 
+    <script>
+        const loginForm = document.getElementById("loginForm");
+
+        loginForm.addEventListener("submit", e => {
+            const usernameTx = document.getElementById("usernameTx");
+            const passwordTx = document.getElementById("passwordTx");
+
+            if(usernameTx.value.trim().length === 0
+                    || passwordTx.value.trim().length === 0) {
+                e.preventDefault();
+                alert("Lütfen kullanıcı adı ve parola bölümlerini doldurunuz.");
+            }
+        });
+    </script>
     <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

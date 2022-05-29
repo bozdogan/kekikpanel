@@ -46,3 +46,28 @@ api.deleteUser = async function(username) {
 
     return response.status === 200;
 }
+
+
+api.getNotes = async function() {
+    const response = await fetch(API_URL + "/notes");
+    return await response.json();
+}
+
+api.getNotesByUsername = async function(username) {
+    const response = await fetch(API_URL + "/notes/of/" + username);
+    const responseText = await response.text();
+
+    if(responseText.length > 0) {
+        return JSON.parse(responseText);
+    } else {
+        return null;
+    }
+}
+
+api.deleteNote = async function(noteID) {
+    const response = await fetch(API_URL + "/notes/" + noteID, {
+        method: "DELETE"
+    });
+
+    return response.status === 200;
+}

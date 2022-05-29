@@ -13,7 +13,11 @@
 <body>
     <main class="container my-5">
         <h1 class="text-center">Yönetici Paneli</h1>
-        <p><b>Current User:</b> <span th:text="${activeUser}"></span></p>
+        <p><b>Aktif kullanıcı:</b> <span th:text="${activeUser}"></span></p>
+        <div class="mb-3">
+            <a href="/user/panel" class="btn btn-link">Kullanıcı paneline geç</a>
+            <a href="/logout" class="btn btn-link">Çıkış yap</a>
+        </div>
 
         <div class="row mb-3">
             <div class="col-6">
@@ -23,7 +27,7 @@
                     </div>
 
                     <div id="userCreatePanel" class="p-3 bg-light border">
-                        <h5>Yeni Kullanıcı Ekle</h3>
+                        <h5>Yeni Kullanıcı Ekle</h5>
                         <form id="userCreateForm">
                             <div class="mb-3">
                                 <label for="newUserUsernameTx" class="form-label">Kullanıcı adı</label>
@@ -45,25 +49,11 @@
             </div>
             <div class="col-6">
                 <div class="p-3 bg-light border">
-                    <h3>Notlarım</h3>
+                    <h3>Bütün Notlar</h3>
                     <div id="notesPanel">
                         <div class="p-2 my-3 bg-white border">
-                            <p class="mb-0">Everything</p>
+                            <p class="mb-0">Lorem ipsum dolor sit amet.<br>I saw the tail of a comet.</p>
                             <p class="mb-0"><small>admin</small>, <i>YYYY-MM-DD</i></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-6 offset-3">
-                <div class="p-3 bg-light border">
-                    <h3>Bütün Notlar</h3>
-                    <div id="allNotesPanel">
-                        <div class="p-2 my-3 bg-white border">
-                            <p class="mb-0">TEXT</p>
-                            <p class="mb-0"><small>username</small>, <i>DATE</i></p>
                         </div>
                     </div>
                 </div>

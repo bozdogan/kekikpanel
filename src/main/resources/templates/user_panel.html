@@ -16,6 +16,10 @@
 
         <p><b>Aktif kullanıcı:</b> <span th:text="${activeUser}"></span></p>
 
+        <div class="mb-3" th:if="${isUserAdmin} == true">
+            <a href="/admin/panel" class="btn btn-link">Yönetici paneline geç</a>
+        </div>
+
         <div class="p-2 my-3 bg-white border" th:each="note: ${userNotes}">
             <div>
                 <a th:attr="href='/user/shownote/'+${note.id}" class="small">Notu Görüntüle</a>

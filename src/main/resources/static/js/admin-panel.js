@@ -61,7 +61,39 @@ function userComponent(username, isAdmin) {
     return el;
 }
 
-const loadUsers = async function() {
+function noteComponent(noteID, noteBody, username, dateCreated) {
+    const el = document.createElement("div");
+
+    const bodyLb = document.createElement("p");
+    bodyLb.innerHTML = noteBody;
+
+    const usernameLb = document.createElement("span");
+    usernameLb.className = "small"
+    usernameLb.innerHTML = username;
+
+    const dateLb = document.createElement("span");
+    dateLb.innerHTML = ", " + dateCreated;
+
+    const deleteBt = document.createElement("button");
+    deleteBt.id = `note-${noteID}-deleteBt`;
+    deleteBt.className = "d-block ms-auto btn-sm btn-outline-danger ms-3";
+    deleteBt.innerHTML = "Sil";
+    deleteBt.addEventListener("click", async (e) => {
+        e.preventDefault();
+        await api.deleteNote(noteID);
+        el.remove();
+    });
+
+    el.id = `note-${noteID}`;
+    el.className = "p-2 my-3 bg-white border";
+    el.appendChild(bodyLb);
+    el.appendChild(usernameLb);
+    el.appendChild(dateLb);
+    el.appendChild(deleteBt);
+    return el;
+}
+
+async function loadUsers() {
     const users = await api.getUsers();
     
     usersPanel.innerHTML = "";
@@ -72,9 +104,26 @@ const loadUsers = async function() {
     console.log(users);
 }
 
+async function loadNotes() {
+    const notes = await api.getNotes();
+
+    notesPanel.innerHTML = "";
+    notes.forEach(it => {
+        notesPanel.appendChild(noteComponent(
+                it.id,
+                it.body,
+                it.owner.username,
+                it.dateCreated
+        ));
+    });
+
+    console.log(notes);
+}
+
 
 window.onload = async function(event) {
     await loadUsers();
+    await loadNotes();
     userCreateForm.addEventListener("submit", async(e) => {
         e.preventDefault();
 

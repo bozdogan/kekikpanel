@@ -13,6 +13,7 @@
 
 - GET /api/notes
 - GET /api/notes/{id}
+- GET /api/notes/of/{username}
 - POST /api/notes
 - PUT /api/notes/{id}
 - DELETE /api/notes/{id}

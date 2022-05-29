@@ -26,7 +26,7 @@
         <form id="newNoteForm" action="/user/createnote" method="POST" class="validated-form">
             <input type="hidden" name="owner" value="TANIMSIZ" th:attr="value=${username}">
             <div class="mb-3">
-                <label for="noteBodyTx" class="form-label">Yeni Görev</label>
+                <label for="noteBodyTx" class="form-label">Yeni Not</label>
                 <textarea name="body" class="form-control" id="noteBodyTx" required></textarea>
             </div>
 

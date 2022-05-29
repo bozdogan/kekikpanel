@@ -1,11 +1,12 @@
 package com.boraozdogan.kekikpanel.api;
 
 import com.boraozdogan.kekikpanel.model.User;
-import com.boraozdogan.kekikpanel.api.dto.UserRequestModel;
+import com.boraozdogan.kekikpanel.api.dto.UserDTO;
 import com.boraozdogan.kekikpanel.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,11 +25,11 @@ public class UsersRoute {
     }
 
     @PostMapping("/api/users")
-    public User newUser(@RequestBody UserRequestModel userRequestModel) {
+    public User newUser(@Valid @RequestBody UserDTO userDTO) {
         var user = new User(
-                userRequestModel.username(),
-                userRequestModel.password(),
-                userRequestModel.isAdmin());
+                userDTO.username(),
+                userDTO.password(),
+                userDTO.isAdmin());
 
         userRepository.save(user);
         return user;
@@ -37,20 +38,20 @@ public class UsersRoute {
     @PutMapping("/api/users/{username}")
     public User replaceUser(
             @PathVariable String username,
-            @RequestBody UserRequestModel userRequestModel
+            @Valid @RequestBody UserDTO userDTO
     ) {
         var userOpt = userRepository.findById(username);
         if(userOpt.isPresent()) {
             var user = userOpt.get();
-            user.setPwHash(userRequestModel.password());
-            user.setAdmin(userRequestModel.isAdmin());
+            user.setPwHash(userDTO.password());
+            user.setAdmin(userDTO.isAdmin());
 
             return userRepository.save(user);
         } else {
-            return newUser(new UserRequestModel(
+            return newUser(new UserDTO(
                     username,
-                    userRequestModel.password(),
-                    userRequestModel.isAdmin()
+                    userDTO.password(),
+                    userDTO.isAdmin()
             ));
         }
     }

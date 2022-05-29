@@ -1,12 +1,14 @@
 package com.boraozdogan.kekikpanel.api;
 
+import com.boraozdogan.kekikpanel.api.dto.NoteBodyDTO;
 import com.boraozdogan.kekikpanel.model.Note;
-import com.boraozdogan.kekikpanel.api.dto.NoteRequestModel;
+import com.boraozdogan.kekikpanel.api.dto.NoteDTO;
 import com.boraozdogan.kekikpanel.repository.NoteRepository;
 import com.boraozdogan.kekikpanel.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +34,7 @@ public class NotesRoute {
     }
 
     @PostMapping("/api/notes")
-    public Note newNote(@RequestBody NoteRequestModel noteRequest) {
+    public Note newNote(@Valid @RequestBody NoteDTO noteRequest) {
         var userOpt = userRepository.findById(noteRequest.owner());
         if(userOpt.isEmpty()) {
             return  null;
@@ -51,12 +53,12 @@ public class NotesRoute {
     @PutMapping("/api/notes/{id}")
     public Note editNote(
             @PathVariable int id,
-            @RequestBody Map<String, Object> taskMap
+            @Valid @RequestBody NoteBodyDTO noteBody
     ) {
         var noteOpt = noteRepository.findById(id);
         if(noteOpt.isPresent()) {
             var note = noteOpt.get();
-            note.setBody(taskMap.get("body").toString());
+            note.setBody(noteBody.body());
 
             return noteRepository.save(note);
         } else {

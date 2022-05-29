@@ -1,8 +1,9 @@
 package com.boraozdogan.kekikpanel.controller;
 
 import com.boraozdogan.kekikpanel.api.NotesRoute;
+import com.boraozdogan.kekikpanel.api.dto.NoteBodyDTO;
 import com.boraozdogan.kekikpanel.model.Note;
-import com.boraozdogan.kekikpanel.api.dto.NoteRequestModel;
+import com.boraozdogan.kekikpanel.api.dto.NoteDTO;
 import com.boraozdogan.kekikpanel.repository.NoteRepository;
 import com.boraozdogan.kekikpanel.repository.UserRepository;
 import org.slf4j.Logger;
@@ -87,7 +88,7 @@ public class UserPanelController {
         } else {
             // NOTE(bora): Call internal API directly
             note = notesRoute.newNote(
-                    new NoteRequestModel(activeUser, body));
+                    new NoteDTO(activeUser, body));
         }
 
         logger.info("Record added: {}", note);
@@ -204,7 +205,7 @@ public class UserPanelController {
                     Note.class);
         } else {
             // NOTE(bora): Call internal API directly
-            note = notesRoute.editNote(noteID, Map.of("body", body));
+            note = notesRoute.editNote(noteID, new NoteBodyDTO(body));
         }
 
         if(note == null) {

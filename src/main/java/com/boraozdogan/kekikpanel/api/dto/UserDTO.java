@@ -1,7 +1,11 @@
 package com.boraozdogan.kekikpanel.api.dto;
 
-public record UserRequestModel(
+import javax.validation.constraints.NotBlank;
+
+public record UserDTO(
+        @NotBlank
         String username,
+        @NotBlank
         String password,
         boolean isAdmin) {
 }

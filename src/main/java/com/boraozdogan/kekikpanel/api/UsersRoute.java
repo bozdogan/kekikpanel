@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UsersRoute {
 
     @Autowired
@@ -22,6 +23,10 @@ public class UsersRoute {
         userRepository.findAll().forEach(result::add);
 
         return result;
+    }
+    @GetMapping("/api/users/{username}")
+    public User one(@PathVariable String username) {
+        return userRepository.findById(username).orElse(null);
     }
 
     @PostMapping("/api/users")
@@ -58,6 +63,8 @@ public class UsersRoute {
 
     @DeleteMapping("/api/users/{username}")
     public void deleteUser(@PathVariable String username) {
-        userRepository.deleteById(username);
+        if(userRepository.findById(username).isPresent()) {
+            userRepository.deleteById(username);
+        }
     }
 }

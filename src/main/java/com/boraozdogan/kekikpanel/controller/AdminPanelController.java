@@ -45,10 +45,7 @@ public class AdminPanelController {
             return "redirect:/panel";
         }
 
-        model.addAttribute("userNotes", noteRepository.findByOwner(user));
-        model.addAttribute("users", userRepository.findAll());
-        model.addAttribute("allNotes", noteRepository.findAll());
-
+        model.addAttribute("activeUser", activeUser);
         model.addAttribute("Title", String.format("%s - Admin Panel", appName));
         return "admin_panel";
     }

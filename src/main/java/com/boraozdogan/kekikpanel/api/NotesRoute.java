@@ -68,6 +68,8 @@ public class NotesRoute {
 
     @DeleteMapping("/api/notes/{id}")
     public void deleteNote(@PathVariable int id) {
-        noteRepository.deleteById(id);
+        if(noteRepository.findById(id).isPresent()) {
+            noteRepository.deleteById(id);
+        }
     }
 }

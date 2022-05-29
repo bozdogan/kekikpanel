@@ -1,3 +1,20 @@
+# KekikPanel
+
+Çok kullanıcılı "not alma" uygulaması.
+
+Kullanılan teknolojiler:
+- Spring Web
+- Thymeleaf
+- H2
+
+Test verileri:
+
+| Kullanıcı Adı | Parola  | Yönetici mi? |
+|---------------|---------|--------------|
+| admin         | `admin` | Evet         |
+| cansimit      | `1234`  | Hayır        |
+
+
 ## API Endpoints
 
 ### `/api/users`
@@ -17,3 +34,8 @@
 - POST /api/notes
 - PUT /api/notes/{id}
 - DELETE /api/notes/{id}
+
+<!--
+    Bora Özdoğan
+    Mayıs 2022
+-->

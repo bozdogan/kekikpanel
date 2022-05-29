@@ -21,18 +21,13 @@ public class KekikPanelApplication {
 		var userRepo = ctx.getBean(UserRepository.class);
 		var taskRepo = ctx.getBean(NoteRepository.class);
 
-
 		var admin = new User("admin", "admin", true);
 		var cansimit = new User("cansimit", "1234", false);
-		var bora = new User("bora", "1234", false);
 		userRepo.save(admin);
 		userRepo.save(cansimit);
-		userRepo.save(bora);
 
-		taskRepo.save(new Note(cansimit,"Do this", LocalDate.now()));
+		taskRepo.save(new Note(cansimit, "My first note", LocalDate.of(2022, 05, 27)));
+		taskRepo.save(new Note(cansimit, "My second note", LocalDate.of(2022, 05, 28)));
 		taskRepo.save(new Note(admin, "Everything", LocalDate.now()));
-        taskRepo.save(new Note(cansimit, "Do that", LocalDate.of(2022, 05, 27)));
-		taskRepo.save(new Note(bora, "My first task", LocalDate.of(2022, 05, 26)));
-		taskRepo.save(new Note(bora, "My second task", LocalDate.of(2022, 05, 27)));
 	}
 }

@@ -32,12 +32,22 @@ public class NotesRoute {
     public Note one(@PathVariable int id) {
         return noteRepository.findById(id).orElse(null);
     }
+    @GetMapping("/api/notes/of/{username}")
+    public List<Note> byOwner(@PathVariable String username) {
+        var userOpt = userRepository.findById(username);
+        if(userOpt.isEmpty()) {
+            return null;
+        }
+
+        var user = userOpt.get();
+        return noteRepository.findByOwner(user);
+    }
 
     @PostMapping("/api/notes")
     public Note newNote(@Valid @RequestBody NoteDTO noteRequest) {
         var userOpt = userRepository.findById(noteRequest.owner());
         if(userOpt.isEmpty()) {
-            return  null;
+            return null;
         }
 
         var user = userOpt.get();

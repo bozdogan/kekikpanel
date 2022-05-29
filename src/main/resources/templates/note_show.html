@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/res/favicon.ico">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+
+    <title th:text="${Title}"></title>
+</head>
+<body>
+    <main class="container my-5">
+        <h1 class="text-center" th:text="'Not #'+${note.id}">Not Görüntüle</h1>
+
+        <p><b>Aktif kullanıcı:</b> <span th:text="${activeUser}"></span></p>
+
+        <div class="p-2 my-3 bg-white border">
+            <div th:text="${note.body}"></div>
+            <div><small th:text="${note.owner.username}"></small>, <i th:text="${note.dateCreated}"></i></div>
+
+            <div>
+                <a th:attr="href='/user/editnote/'+${note.id}" class="btn btn-link">Edit</a>
+                <a th:attr="href='/user/deletenote/'+${note.id}" class="btn btn-link text-danger">Delete</a>
+            </div>
+        </div>
+
+        <p><a href="/user/panel">Panele Geri Dön</a></p>
+    </main>
+
+    <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

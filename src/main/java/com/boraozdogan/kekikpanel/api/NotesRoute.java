@@ -1,7 +1,7 @@
 package com.boraozdogan.kekikpanel.api;
 
 import com.boraozdogan.kekikpanel.model.Note;
-import com.boraozdogan.kekikpanel.model.NoteRequestModel;
+import com.boraozdogan.kekikpanel.api.dto.NoteRequestModel;
 import com.boraozdogan.kekikpanel.repository.NoteRepository;
 import com.boraozdogan.kekikpanel.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

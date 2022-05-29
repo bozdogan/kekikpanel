@@ -15,15 +15,20 @@
     <main class="container my-5">
         <h1 class="text-center">Notlarım</h1>
 
-        <p><b>Aktif kullanıcı:</b> <span th:text="${username}">TANIMSIZ</span></p>
+        <p><b>Aktif kullanıcı:</b> <span th:text="${activeUser}"></span></p>
 
         <div class="p-2 my-3 bg-white border" th:each="note: ${userNotes}">
-            <p class="mb-0" th:text="${note.body}"></p>
-            <p class="mb-0"><small th:text="${note.owner.username}"></small>, <i th:text="${note.dateCreated}"></i></p>
+            <div>
+                <a th:attr="href='/user/shownote/'+${note.id}" class="small">Notu Görüntüle</a>
+            </div>
+            <div th:text="${note.body}"></div>
+            <div>
+                <small th:text="${note.owner.username}"></small>,
+                <i th:text="${note.dateCreated}"></i>
+            </div>
         </div>
 
-
-        <form id="newNoteForm" action="/user/createnote" method="POST" class="validated-form">
+        <form id="newNoteForm" action="/user/createnote" method="POST">
             <input type="hidden" name="owner" value="TANIMSIZ" th:attr="value=${username}">
             <div class="mb-3">
                 <label for="noteBodyTx" class="form-label">Yeni Not</label>
@@ -32,6 +37,10 @@
 
             <button type="submit" class="btn btn-primary px-3 d-block ms-auto" id="sendBt">Ekle</button>
         </form>
+
+        <div class="my-5">
+            <a href="/logout">Çıkış Yap</a>
+        </div>
     </main>
 
     <script>

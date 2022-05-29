@@ -1,7 +1,7 @@
 package com.boraozdogan.kekikpanel.api;
 
 import com.boraozdogan.kekikpanel.model.User;
-import com.boraozdogan.kekikpanel.model.UserRequestModel;
+import com.boraozdogan.kekikpanel.api.dto.UserRequestModel;
 import com.boraozdogan.kekikpanel.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

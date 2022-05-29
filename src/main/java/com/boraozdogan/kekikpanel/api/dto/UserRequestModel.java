@@ -1,4 +1,4 @@
-package com.boraozdogan.kekikpanel.model;
+package com.boraozdogan.kekikpanel.api.dto;
 
 public record UserRequestModel(
         String username,

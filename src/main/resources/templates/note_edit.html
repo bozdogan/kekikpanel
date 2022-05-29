@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/res/favicon.ico">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+
+    <title th:text="${Title}"></title>
+</head>
+<body>
+    <main class="container my-5">
+        <h1 class="text-center">Not Düzenle (#<span th:text="${note.id}"></span>)</h1>
+
+        <p><b>Aktif kullanıcı:</b> <span th:text="${activeUser}"></span></p>
+
+        <div class="my-3 bg-white">
+            <form id="editNoteForm" th:attr="action='/user/editnote/'+${note.id}" method="POST">
+                <div class="mb-3">
+                    <label for="noteBodyTx" class="form-label">Not:</label>
+                    <textarea name="body" class="form-control" id="noteBodyTx" th:text="${note.body}" required></textarea>
+                </div>
+
+                <div>
+                    <small th:text="${note.owner.username}"></small>,
+                    <i th:text="${note.dateCreated}"></i>
+                </div>
+
+                <button type="submit" class="btn btn-primary px-3 d-block ms-auto" id="sendBt">Kaydet</button>
+            </form>
+        </div>
+
+        <p><a href="/user/panel">Panele Geri Dön</a></p>
+    </main>
+
+    <script>
+        const editNoteForm = document.getElementById("editNoteForm")
+
+        editNoteForm.addEventListener("submit", e => {
+            const noteBodyTx = document.getElementById("noteBodyTx");
+
+            if(noteBodyTx.value.trim().length === 0) {
+                e.preventDefault()
+                alert("Boş not eklenemez. (Bunun yerine notu silmeyi deneyin.)")
+            } 
+        })
+    </script>
+
+    <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

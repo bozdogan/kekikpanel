@@ -56,6 +56,7 @@ public class UserPanelController {
         }
 
         var user = userOpt.get();
+        model.addAttribute("activeUser", activeUser);
         model.addAttribute("userNotes", noteRepository.findByOwner(user));
         model.addAttribute("allNotes", noteRepository.findAll());
 

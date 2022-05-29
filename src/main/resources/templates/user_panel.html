@@ -43,16 +43,16 @@
     </main>
 
     <script>
-        const newNoteForm = document.getElementById("newNoteForm")
+        const newNoteForm = document.getElementById("newNoteForm");
 
         newNoteForm.addEventListener("submit", e => {
             const noteBodyTx = document.getElementById("noteBodyTx");
 
             if(noteBodyTx.value.trim().length === 0) {
-                e.preventDefault()
-                alert("Boş not eklenemez.")
+                e.preventDefault();
+                alert("Boş not eklenemez.");
             } 
-        })
+        });
     </script>
 
     <script src="/js/bootstrap.bundle.min.js"></script>

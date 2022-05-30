@@ -2,13 +2,16 @@
 
 Çok kullanıcılı "not alma" uygulaması.
 
-Kullanılan teknolojiler:
+Admin paneli tamamen client-side çalışıp AJAX aracılığıyla API çağrısı yapmaktadır.  Kullanıcı paneli server-side render olup geriplanda doğrudan ya da HTTP üzerinden (konfigüre edilebilir şekilde) API çağrısı yapmaktadır.
+
+
+## Kullanılan Teknolojiler
 - Spring Web
 - Thymeleaf
 - H2
 
-Test verileri:
 
+## Test Kullanıcıları
 | Kullanıcı Adı | Parola  | Yönetici mi? |
 |---------------|---------|--------------|
 | admin         | `admin` | Evet         |

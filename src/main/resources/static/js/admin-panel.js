@@ -38,6 +38,7 @@ function userComponent(username, isAdmin) {
         e.preventDefault();
         await api.deleteUser(username);
         el.remove();
+        await loadNotes();  // NOTE(bora): Deleting a user will delete their notes, too.
     });
 
     const usernameLb = document.createElement("div");

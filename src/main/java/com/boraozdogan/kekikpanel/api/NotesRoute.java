@@ -3,6 +3,7 @@ package com.boraozdogan.kekikpanel.api;
 import com.boraozdogan.kekikpanel.api.dto.NoteBodyDTO;
 import com.boraozdogan.kekikpanel.model.Note;
 import com.boraozdogan.kekikpanel.api.dto.NoteDTO;
+import com.boraozdogan.kekikpanel.model.User;
 import com.boraozdogan.kekikpanel.repository.NoteRepository;
 import com.boraozdogan.kekikpanel.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 public class NotesRoute {
@@ -23,7 +25,7 @@ public class NotesRoute {
 
     @GetMapping("/api/notes")
     public List<Note> all() {
-        var result = new ArrayList<Note>();
+        List<Note> result = new ArrayList<>();
         noteRepository.findAll().forEach(result::add);
 
         return result;
@@ -34,24 +36,24 @@ public class NotesRoute {
     }
     @GetMapping("/api/notes/of/{username}")
     public List<Note> byOwner(@PathVariable String username) {
-        var userOpt = userRepository.findById(username);
-        if(userOpt.isEmpty()) {
+        Optional<User> userOpt = userRepository.findById(username);
+        if(!userOpt.isPresent()) {
             return null;
         }
 
-        var user = userOpt.get();
+        User user = userOpt.get();
         return noteRepository.findByOwner(user);
     }
 
     @PostMapping("/api/notes")
     public Note newNote(@Valid @RequestBody NoteDTO noteRequest) {
-        var userOpt = userRepository.findById(noteRequest.owner());
-        if(userOpt.isEmpty()) {
+        Optional<User> userOpt = userRepository.findById(noteRequest.owner());
+        if(!userOpt.isPresent()) {
             return null;
         }
 
-        var user = userOpt.get();
-        var note = new Note(
+        User user = userOpt.get();
+        Note note = new Note(
                 user,
                 noteRequest.body(),
                 LocalDate.now());
@@ -65,9 +67,9 @@ public class NotesRoute {
             @PathVariable int id,
             @Valid @RequestBody NoteBodyDTO noteBody
     ) {
-        var noteOpt = noteRepository.findById(id);
+        Optional<Note> noteOpt = noteRepository.findById(id);
         if(noteOpt.isPresent()) {
-            var note = noteOpt.get();
+            Note note = noteOpt.get();
             note.setBody(noteBody.body());
 
             return noteRepository.save(note);

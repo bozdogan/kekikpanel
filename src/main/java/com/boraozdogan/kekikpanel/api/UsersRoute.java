@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -19,7 +20,7 @@ public class UsersRoute {
 
     @GetMapping("/api/users")
     public List<User> all() {
-        var result = new ArrayList<User>();
+        List<User> result = new ArrayList<>();
         userRepository.findAll().forEach(result::add);
 
         return result;
@@ -31,7 +32,7 @@ public class UsersRoute {
 
     @PostMapping("/api/users")
     public User newUser(@Valid @RequestBody UserDTO userDTO) {
-        var user = new User(
+        User user = new User(
                 userDTO.username(),
                 userDTO.password(),
                 userDTO.isAdmin());
@@ -45,9 +46,9 @@ public class UsersRoute {
             @PathVariable String username,
             @Valid @RequestBody UserDTO userDTO
     ) {
-        var userOpt = userRepository.findById(username);
+        Optional<User> userOpt = userRepository.findById(username);
         if(userOpt.isPresent()) {
-            var user = userOpt.get();
+            User user = userOpt.get();
             user.setPwHash(userDTO.password());
             user.setAdmin(userDTO.isAdmin());
 

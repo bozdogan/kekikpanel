@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.util.HashMap;
+import java.util.*;
 
 @ControllerAdvice
 public class ValidationHandler
@@ -21,7 +21,7 @@ public class ValidationHandler
             HttpStatus status,
             WebRequest request) {
 
-        var result = new HashMap<String, String>();
+        Map<String, String> result = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach(e -> {
             result.put(
                     ((FieldError) e).getField(),

@@ -40,7 +40,7 @@ public class LoginController {
             @RequestParam("password") String password,
             HttpServletRequest request
     ) {
-        var activeUser = (String) request.getSession().getAttribute("activeUser");
+        String activeUser = (String) request.getSession().getAttribute("activeUser");
         if(activeUser != null) {
             logger.info("User already logged in: {}", activeUser);
             return "redirect:/panel";
@@ -59,7 +59,7 @@ public class LoginController {
 
     @GetMapping("/panel")
     public String resolveUserType(HttpServletRequest request) {
-        var activeUser = (String) request.getSession().getAttribute("activeUser");
+        String activeUser = (String) request.getSession().getAttribute("activeUser");
         if(activeUser == null) {
             logger.info("Redirecting: /panel -> /login");
             return "redirect:/login";

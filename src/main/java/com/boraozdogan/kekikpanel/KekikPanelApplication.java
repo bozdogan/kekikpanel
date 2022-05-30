@@ -6,6 +6,7 @@ import com.boraozdogan.kekikpanel.repository.NoteRepository;
 import com.boraozdogan.kekikpanel.repository.UserRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 import java.time.LocalDate;
 
@@ -15,14 +16,15 @@ public class KekikPanelApplication {
 
 	public static void main(String[] args) {
 
-		var ctx = SpringApplication.run(KekikPanelApplication.class, args);
+		ConfigurableApplicationContext ctx =
+				SpringApplication.run(KekikPanelApplication.class, args);
 
 		// NOTE(bora): Initialize test data
-		var userRepo = ctx.getBean(UserRepository.class);
-		var taskRepo = ctx.getBean(NoteRepository.class);
+		UserRepository userRepo = ctx.getBean(UserRepository.class);
+		NoteRepository taskRepo = ctx.getBean(NoteRepository.class);
 
-		var admin = new User("admin", "admin", true);
-		var cansimit = new User("cansimit", "1234", false);
+		User admin = new User("admin", "admin", true);
+		User cansimit = new User("cansimit", "1234", false);
 		userRepo.save(admin);
 		userRepo.save(cansimit);
 

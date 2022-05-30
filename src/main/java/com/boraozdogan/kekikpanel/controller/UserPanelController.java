@@ -4,6 +4,7 @@ import com.boraozdogan.kekikpanel.api.NotesRoute;
 import com.boraozdogan.kekikpanel.api.dto.NoteBodyDTO;
 import com.boraozdogan.kekikpanel.model.Note;
 import com.boraozdogan.kekikpanel.api.dto.NoteDTO;
+import com.boraozdogan.kekikpanel.model.User;
 import com.boraozdogan.kekikpanel.repository.NoteRepository;
 import com.boraozdogan.kekikpanel.repository.UserRepository;
 import org.slf4j.Logger;
@@ -20,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 
 @Controller
@@ -43,19 +46,19 @@ public class UserPanelController {
 
     @GetMapping("/user/panel")
     public String userPanel(ModelMap model, HttpServletRequest request) {
-        var activeUser = (String) request.getSession().getAttribute("activeUser");
+        String activeUser = (String) request.getSession().getAttribute("activeUser");
         if(activeUser == null) {
             logger.info("No active user. Redirecting to login page.");
             return "redirect:/login";
         }
 
-        var userOpt = userRepository.findById(activeUser);
-        if(userOpt.isEmpty()) {
+        Optional<User> userOpt = userRepository.findById(activeUser);
+        if(!userOpt.isPresent()) {
             logger.warn("Session user does not exist in DB!");
             return "redirect:/login";
         }
 
-        var user = userOpt.get();
+        User user = userOpt.get();
         model.addAttribute("activeUser", activeUser);
         model.addAttribute("isUserAdmin", user.isAdmin());
         model.addAttribute("userNotes", noteRepository.findByOwner(user));
@@ -70,23 +73,24 @@ public class UserPanelController {
             @RequestParam("body") String body,
             HttpServletRequest request
     ) {
-        var activeUser = (String) request.getSession().getAttribute("activeUser");
+        String activeUser = (String) request.getSession().getAttribute("activeUser");
         if(activeUser == null) {
             logger.info("No active user. Redirecting to login page.");
             return "redirect:/login";
         }
 
-        if(body.isBlank()) {
+        if(body.trim().length() == 0) {
             return "redirect:/user/panel";
         }
 
         Note note;
         if(callAPIOverHTTP) {
-            var restTemplate = new RestTemplate();
-            note = restTemplate.postForObject(apiURL + "/notes",
-                    Map.of("owner", activeUser,
-                            "body", body),
-                    Note.class);
+            RestTemplate restTemplate = new RestTemplate();
+
+            Map<String, String> postData = new HashMap<>();
+            postData.put("owner", activeUser);
+            postData.put("body", body);
+            note = restTemplate.postForObject(apiURL + "/notes", postData, Note.class);
         } else {
             // NOTE(bora): Call internal API directly
             note = notesRoute.newNote(
@@ -104,7 +108,7 @@ public class UserPanelController {
             Model model,
             HttpServletRequest request
     ) {
-        var activeUser = (String) request.getSession().getAttribute("activeUser");
+        String activeUser = (String) request.getSession().getAttribute("activeUser");
         if(activeUser == null) {
             logger.info("No active user. Redirecting to login page.");
             return "redirect:/login";
@@ -112,7 +116,7 @@ public class UserPanelController {
 
         Note note;
         if(callAPIOverHTTP) {
-            var restTemplate = new RestTemplate();
+            RestTemplate restTemplate = new RestTemplate();
             note = restTemplate.getForObject(
                     String.format("%s/notes/%d", apiURL, noteID),
                     Note.class);
@@ -146,7 +150,7 @@ public class UserPanelController {
             Model model,
             HttpServletRequest request
     ) {
-        var activeUser = (String) request.getSession().getAttribute("activeUser");
+        String activeUser = (String) request.getSession().getAttribute("activeUser");
         if(activeUser == null) {
             logger.info("No active user. Redirecting to login page.");
             return "redirect:/login";
@@ -154,7 +158,7 @@ public class UserPanelController {
 
         Note note;
         if(callAPIOverHTTP) {
-            var restTemplate = new RestTemplate();
+            RestTemplate restTemplate = new RestTemplate();
             note = restTemplate.getForObject(
                     String.format("%s/notes/%d", apiURL, noteID),
                     Note.class);
@@ -189,7 +193,7 @@ public class UserPanelController {
             Model model,
             HttpServletRequest request
     ) {
-        var activeUser = (String) request.getSession().getAttribute("activeUser");
+        String activeUser = (String) request.getSession().getAttribute("activeUser");
         if(activeUser == null) {
             logger.info("No active user. Redirecting to login page.");
             return "redirect:/login";
@@ -197,10 +201,13 @@ public class UserPanelController {
 
         Note note;
         if(callAPIOverHTTP) {
-            var restTemplate = new RestTemplate();
+            RestTemplate restTemplate = new RestTemplate();
+
+            Map<String, String> postData = new HashMap<>();
+            postData.put("body", body);
             restTemplate.put(
                     String.format("%s/notes/%d", apiURL, noteID),
-                    Map.of("body", body));
+                    postData);
 
             note = restTemplate.getForObject(
                     String.format("%s/notes/%d", apiURL, noteID),
@@ -235,7 +242,7 @@ public class UserPanelController {
             Model model,
             HttpServletRequest request
     ) {
-        var activeUser = (String) request.getSession().getAttribute("activeUser");
+        String activeUser = (String) request.getSession().getAttribute("activeUser");
         if(activeUser == null) {
             logger.info("No active user. Redirecting to login page.");
             return "redirect:/login";
@@ -243,7 +250,7 @@ public class UserPanelController {
 
         Note note;
         if(callAPIOverHTTP) {
-            var restTemplate = new RestTemplate();
+            RestTemplate restTemplate = new RestTemplate();
             note = restTemplate.getForObject(
                     String.format("%s/notes/%d", apiURL, noteID),
                     Note.class);
@@ -275,7 +282,7 @@ public class UserPanelController {
             Model model,
             HttpServletRequest request
     ) {
-        var activeUser = (String) request.getSession().getAttribute("activeUser");
+        String activeUser = (String) request.getSession().getAttribute("activeUser");
         if(activeUser == null) {
             logger.info("No active user. Redirecting to login page.");
             return "redirect:/login";
@@ -283,7 +290,7 @@ public class UserPanelController {
 
         Note note;
         if(callAPIOverHTTP) {
-            var restTemplate = new RestTemplate();
+            RestTemplate restTemplate = new RestTemplate();
             note = restTemplate.getForObject(
                     String.format("%s/notes/%d", apiURL, noteID),
                     Note.class);
@@ -304,7 +311,7 @@ public class UserPanelController {
         }
 
         if(callAPIOverHTTP) {
-            var restTemplate = new RestTemplate();
+            RestTemplate restTemplate = new RestTemplate();
             restTemplate.delete(
                     String.format("%s/notes/%d", apiURL, noteID),
                     Note.class);

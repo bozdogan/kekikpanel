@@ -2,8 +2,8 @@ package com.boraozdogan.kekikpanel.controller;
 
 import com.boraozdogan.kekikpanel.api.NotesRoute;
 import com.boraozdogan.kekikpanel.api.dto.NoteBodyDTO;
-import com.boraozdogan.kekikpanel.model.Note;
 import com.boraozdogan.kekikpanel.api.dto.NoteDTO;
+import com.boraozdogan.kekikpanel.model.Note;
 import com.boraozdogan.kekikpanel.model.User;
 import com.boraozdogan.kekikpanel.repository.NoteRepository;
 import com.boraozdogan.kekikpanel.repository.UserRepository;
@@ -18,11 +18,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 
@@ -32,10 +29,6 @@ public class UserPanelController {
 
     @Value("${boz.app.name}")
     private String appName;
-    @Value("${boz.app.apiURL}")
-    private String apiURL;
-    @Value(value = "${boz.app.callAPIOverHTTP:false}")
-    private boolean callAPIOverHTTP;
 
     @Autowired
     private NotesRoute notesRoute;
@@ -83,19 +76,7 @@ public class UserPanelController {
             return "redirect:/user/panel";
         }
 
-        Note note;
-        if(callAPIOverHTTP) {
-            RestTemplate restTemplate = new RestTemplate();
-
-            Map<String, String> postData = new HashMap<>();
-            postData.put("owner", activeUser);
-            postData.put("body", body);
-            note = restTemplate.postForObject(apiURL + "/notes", postData, Note.class);
-        } else {
-            // NOTE(bora): Call internal API directly
-            note = notesRoute.newNote(
-                    new NoteDTO(activeUser, body));
-        }
+        Note note = notesRoute.newNote(new NoteDTO(activeUser, body));
 
         logger.info("Record added: {}", note);
         logger.info("Session variable: {}", request.getSession().getAttribute("activeUser"));
@@ -114,17 +95,7 @@ public class UserPanelController {
             return "redirect:/login";
         }
 
-        Note note;
-        if(callAPIOverHTTP) {
-            RestTemplate restTemplate = new RestTemplate();
-            note = restTemplate.getForObject(
-                    String.format("%s/notes/%d", apiURL, noteID),
-                    Note.class);
-        } else {
-            // NOTE(bora): Call internal API directly
-            note = notesRoute.one(noteID);
-        }
-
+        Note note = notesRoute.one(noteID);
         if(note == null) {
             logger.info("showNote:: Not found: Note#{}", noteID);
             return "redirect:/user/panel";
@@ -156,17 +127,7 @@ public class UserPanelController {
             return "redirect:/login";
         }
 
-        Note note;
-        if(callAPIOverHTTP) {
-            RestTemplate restTemplate = new RestTemplate();
-            note = restTemplate.getForObject(
-                    String.format("%s/notes/%d", apiURL, noteID),
-                    Note.class);
-        } else {
-            // NOTE(bora): Call internal API directly
-            note = notesRoute.one(noteID);
-        }
-
+        Note note = notesRoute.one(noteID);
         if(note == null) {
             logger.info("Not found: Note#{}", noteID);
             return "redirect:/user/panel";
@@ -199,24 +160,7 @@ public class UserPanelController {
             return "redirect:/login";
         }
 
-        Note note;
-        if(callAPIOverHTTP) {
-            RestTemplate restTemplate = new RestTemplate();
-
-            Map<String, String> postData = new HashMap<>();
-            postData.put("body", body);
-            restTemplate.put(
-                    String.format("%s/notes/%d", apiURL, noteID),
-                    postData);
-
-            note = restTemplate.getForObject(
-                    String.format("%s/notes/%d", apiURL, noteID),
-                    Note.class);
-        } else {
-            // NOTE(bora): Call internal API directly
-            note = notesRoute.editNote(noteID, new NoteBodyDTO(body));
-        }
-
+        Note note = notesRoute.editNote(noteID, new NoteBodyDTO(body));
         if(note == null) {
             logger.info("Not found: Note#{}", noteID);
             return "redirect:/user/panel";
@@ -248,17 +192,7 @@ public class UserPanelController {
             return "redirect:/login";
         }
 
-        Note note;
-        if(callAPIOverHTTP) {
-            RestTemplate restTemplate = new RestTemplate();
-            note = restTemplate.getForObject(
-                    String.format("%s/notes/%d", apiURL, noteID),
-                    Note.class);
-        } else {
-            // NOTE(bora): Call internal API directly
-            note = notesRoute.one(noteID);
-        }
-
+        Note note = notesRoute.one(noteID);
         if(note == null) {
             logger.info("deleteNote:: Not found: Note#{}", noteID);
             return "redirect:/user/panel";
@@ -288,17 +222,7 @@ public class UserPanelController {
             return "redirect:/login";
         }
 
-        Note note;
-        if(callAPIOverHTTP) {
-            RestTemplate restTemplate = new RestTemplate();
-            note = restTemplate.getForObject(
-                    String.format("%s/notes/%d", apiURL, noteID),
-                    Note.class);
-        } else {
-            // NOTE(bora): Call internal API directly
-            note = notesRoute.one(noteID);
-        }
-
+        Note note = notesRoute.one(noteID);
         if(note == null) {
             logger.info("deleteNote:: Not found: Note#{}", noteID);
             return "redirect:/user/panel";
@@ -310,15 +234,7 @@ public class UserPanelController {
             return "redirect:/user/panel";
         }
 
-        if(callAPIOverHTTP) {
-            RestTemplate restTemplate = new RestTemplate();
-            restTemplate.delete(
-                    String.format("%s/notes/%d", apiURL, noteID),
-                    Note.class);
-        } else {
-            // NOTE(bora): Call internal API directly
-            notesRoute.deleteNote(noteID);
-        }
+        notesRoute.deleteNote(noteID);
 
         logger.info("Record deleted: {}", noteID);
         return String.format("redirect:/user/shownote/%s", noteID);
